@@ -1,0 +1,22 @@
+---
+# Setup OpenBSD hosts for use with ansible. Assumes the following:
+# - OpenBSD is installed on the target box
+# - an initial user is provisioned with passwordless ssh
+
+- hosts: openbsd
+  gather_facts: false
+  become: yes
+  become_method: su
+  become_user: root
+
+  tasks:
+  - name: Install Python3
+    raw: pkg_add python%3.9
+
+  - name: Create Python3 symlinks
+    raw: "{{ item }}"
+    with_items:
+      - ln -sf /usr/local/bin/python3.9 /usr/local/bin/python
+      - ln -sf /usr/local/bin/python3.9 /usr/local/bin/python3
+      - ln -sf /usr/local/bin/python3-config /usr/local/bin/python-config
+      - ln -sf /usr/local/bin/pydoc3 /usr/local/bin/pydoc
