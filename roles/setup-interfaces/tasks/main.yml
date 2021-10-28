@@ -1,0 +1,4 @@
+---
+- name: Setup interfaces
+  include: openbsd.yml
+  when: not skip_openbsd
