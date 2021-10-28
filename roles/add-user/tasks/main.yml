@@ -1,0 +1,43 @@
+---
+- name: Add a user's primary group
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.ugid }}"
+    state: present
+    system: no
+  with_items:
+    - "{{ users }}"
+
+- name: Add users (OpenBSD)
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.ugid }}"
+    comment: "{{ item.comment }}"
+    group: "{{ item.name }}"
+    groups: "{{ item.openbsd_groups }}"
+    password: "{{ item.password }}"
+    create_home: True
+    update_password: always
+    state: present
+    system: no
+  with_items:
+    - "{{ users }}"
+  when:
+    ansible_distribution == "OpenBSD"
+
+- name: Add users (non-BSD)
+  user:
+    name: "{{ item.name }}"
+    uid: "{{ item.ugid }}"
+    comment: "{{ item.comment }}"
+    group: "{{ item.name }}"
+    groups: "{{ item.linux_groups }}"
+    password: "{{ item.password }}"
+    create_home: True
+    update_password: always
+    state: present
+    system: no
+  with_items:
+    - "{{ users }}"
+  when:
+    ansible_os_family == "Debian"
