@@ -1,0 +1,8 @@
+---
+- name: Setup hosts
+  become: yes
+  hosts: all
+  vars_files:
+    - ~/credentials/become_passwords.yml
+  roles:
+    - { role: add-user, tags: [ 'users' ] }
