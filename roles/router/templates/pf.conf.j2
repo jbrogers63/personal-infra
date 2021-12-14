@@ -1,0 +1,34 @@
+# Ansible managed: DO NOT EDIT MANUALLY
+
+#       $OpenBSD: pf.conf,v 1.55 2017/12/03 20:40:04 sthen Exp $
+#
+# See pf.conf(5) and /etc/examples/pf.conf
+
+wan = "{{ wan }}"
+lan = "{{ lan }}"
+
+{{ martians }}
+
+{% for default in default_rules %}
+{{ default }}
+{% endfor %}
+
+{% for match in match_rules %}
+{{ match }}
+{% endfor %}
+
+# By default, do not permit remote connections to X11
+block return in on ! lo0 proto tcp to port 6000:6010
+
+# Port build user does not need network
+block return out log proto {tcp udp} user _pbuild
+
+block in quick on egress from <martians> to any
+block return out quick on egress from any to <martians>
+block all
+
+pass out quick inet
+pass in on { $lan } inet
+
+block return    # block stateless traffic
+pass            # establish keep-state
