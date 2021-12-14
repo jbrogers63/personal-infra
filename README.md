@@ -8,7 +8,6 @@ This list will be updated as new services are added:
 * DHCP
 * DNS (authoritative and caching)
 * Routing/Firewalling (PF or iptables)
-* Storage Hosting (including network file sharing, backups, etc)
 
 ### Setup
 From the root of the project:
@@ -17,6 +16,7 @@ bash scripts/bootstrap.sh
 ```
 
 ### TODO/wishlist:
+* Storage Hosting (including network file sharing, backups, etc)
 * ad blocking
 * sudo policies
 * package caching
