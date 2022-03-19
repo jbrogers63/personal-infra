@@ -1,0 +1,29 @@
+---
+- name: Create the syslinux folders
+  file:
+    dest: "{{ pxe.bootdir }}/pxelinux.cfg"
+    state: directory
+
+- name: Download syslinux
+  get_url:
+    url: "{{ syslinux.url }}/syslinux-{{ syslinux.version }}.tar.gz"
+    dest: "/tmp/syslinux-{{ syslinux.version }}.tar.gz"
+    mode: "0644"
+
+- name: Unpack syslinux
+  shell: "tar -C {{ syslinux.dest }} -xzf /tmp/syslinux-{{ syslinux.version }}.tar.gz"
+
+- name: Link the menu syslinux utilities
+  file:
+    src: "{{ pxe.bootdir }}/syslinux-{{ syslinux.version }}/bios/com32/menu/{{ item }}"
+    dest: "{{ pxe.bootdir}}/{{ item }}"
+    state: link
+  with_items:
+    - "menu.c32"
+    - "vesamenu.c32"
+
+- name: Copy the deafult pxelinux file
+  template:
+    src: pxe-default.j2
+    dest: "{{ pxe.bootdir }}/pxelinux.cfg/default"
+  

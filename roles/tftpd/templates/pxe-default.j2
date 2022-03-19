@@ -1,0 +1,10 @@
+default vesamenu.c32
+timeout 600
+prompt 1
+
+{% for entry in pxe.bootmenu %}
+label {{ entry.menu_label }}
+  menu label {{ entry.name }}
+  kernel {{ entry.kernel }}
+  append {{ entry.append }}
+{% endfor %}

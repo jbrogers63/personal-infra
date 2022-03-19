@@ -1,0 +1,26 @@
+netboot_tarballs:
+  - url: https://deb.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    dest: "{{ pxe.bootdir }}/debian11-netboot.tar.gz"
+    mode: "0644"
+    folder: "{{ pxe.bootdir }}/debian11"
+  - url: https://deb.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    dest: "{{ pxe.bootdir }}/debian10-netboot.tar.gz"
+    mode: "0644"
+    folder: "{{ pxe.bootdir }}/debian10"
+
+syslinux:
+  url: https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux
+  version: "6.03"
+  dest: "/pxe"
+
+pxe:
+  bootdir: "/pxe"
+  bootmenu:
+    - menu_label: "debian10"
+      name: "Debian 10 AMD64"
+      kernel: "debian10/debian-installer/amd64/linux"
+      append: "initrd=debian10/debian-installer/amd64/initrd.gz"
+    - menu_label: "debian11"
+      name: "Debian 11 AMD64"
+      kernel: "debian11/debian-installer/amd64/linux"
+      append: "initrd=debian11/debian-installer/amd64/initrd.gz"
