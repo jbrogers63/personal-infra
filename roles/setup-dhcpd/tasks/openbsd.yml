@@ -1,14 +1,12 @@
 ---
-- name: Configure the DHCPD service
-  # template: src=openbsd_dhcpd.conf dest=/etc/dhcpd.conf
-  template: src=openbsd_dhcpd.conf dest=/etc/dhcpd.conf
-  loop: "{{ subnets }}"
-
 - name: Enable the DHCPD service
   shell: rcctl enable dhcpd
 
 - name: Set DHCPD flags
   shell: rcctl set dhcpd flags {{ dhcp_interfaces }}
 
-- name: Start the DHCPD service
-  shell: rcctl start dhcpd
+- name: Configure the DHCPD service
+  template: src=openbsd_dhcpd.conf dest=/etc/dhcpd.conf
+  loop: "{{ subnets }}"
+  notify:
+    - "restart dhcpd"
