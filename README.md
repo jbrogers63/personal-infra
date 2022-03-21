@@ -8,6 +8,7 @@ This list will be updated as new services are added:
 * DHCP
 * DNS (authoritative and caching)
 * Routing/Firewalling (PF or iptables)
+* TFTP/PXE booting on a local network
 
 ### Setup
 From the root of the project:
