@@ -3,6 +3,7 @@
   file:
     dest: "{{ pxe.bootdir }}/pxelinux.cfg"
     state: directory
+    owner: _tftpd
 
 - name: Download syslinux
   get_url:
@@ -13,17 +14,22 @@
 - name: Unpack syslinux
   shell: "tar -C {{ syslinux.dest }} -xzf /tmp/syslinux-{{ syslinux.version }}.tar.gz"
 
-- name: Link the menu syslinux utilities
-  file:
-    src: "{{ pxe.bootdir }}/syslinux-{{ syslinux.version }}/bios/com32/menu/{{ item }}"
-    dest: "{{ pxe.bootdir}}/{{ item }}"
-    state: link
+- name: Copy the required binaries
+  copy:
+    src: "{{ pxe.bootdir }}/syslinux-{{ syslinux.version }}/{{ item.src }}"
+    dest: "{{ pxe.bootdir}}/{{ item.dest }}"
+    remote_src: yes
   with_items:
-    - "menu.c32"
-    - "vesamenu.c32"
+    - "{{ pxe.binaries }}"
 
-- name: Copy the deafult pxelinux file
+- name: Copy the default pxelinux file
   template:
     src: pxe-default.j2
     dest: "{{ pxe.bootdir }}/pxelinux.cfg/default"
-  
+
+- name: Recursively set ownership of the PXE boot folder
+  file:
+    path: "{{ pxe.bootdir }}"
+    state: directory
+    recurse: yes
+    owner: _tftpd

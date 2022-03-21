@@ -1,0 +1,31 @@
+---
+- name: Download OpenBSD installer files
+  get_url:
+    url: "{{ pxe.openbsd.base_url }}/{{ item[0] }}/{{ item[1] }}/{{ item[2] }}"
+    dest: "{{ pxe.bootdir }}/{{ item[2] }}"
+    mode: "0644"
+    owner: "_tftpd"
+  with_nested:
+    - "{{ pxe.openbsd.versions }}"
+    - "{{ pxe.openbsd.archs }}"
+    - "{{ pxe.openbsd.files }}"
+
+- name: Create the bsd symlink
+  file:
+    src: "{{ pxe.bootdir }}/bsd.rd"
+    dest: "{{ pxe.bootdir }}/bsd"
+    state: link
+
+- name: Create the boot.conf directory
+  file:
+    path: "{{ pxe.bootdir }}/etc"
+    mode: "0755"
+    owner: "_tftpd"
+    state: directory
+
+- name: Setup the boot.conf file
+  copy:
+    src: "boot.conf"
+    dest: "{{ pxe.bootdir }}/etc/boot.conf"
+    mode: "0644"
+    owner: "_tftpd"

@@ -8,3 +8,6 @@
 
 - name: Setup Syslinux
   include: netboot-syslinux.yml
+
+- name: Setup OpenBSD pxeboot
+  include: pxeboot-openbsd.yml
