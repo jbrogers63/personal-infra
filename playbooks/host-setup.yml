@@ -12,4 +12,5 @@
     # - { role: add-user,         tags: [ 'users' ] }
     - { role: setup-interfaces, tags: [ 'interfaces', 'nics', 'nic' ] }
     - { role: setup-dhcpd,      tags: [ 'dhcpd' ], when: "install_dhcpd|bool" }
+    - { role: tftpd,           tags: [ 'tftpd' ], when: "install_tftpd|bool" }
     - { role: router,           tags: [ 'router' ], when: "install_router|bool" }

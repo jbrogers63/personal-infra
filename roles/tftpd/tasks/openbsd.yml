@@ -1,0 +1,11 @@
+---
+- name: Create the TFTPD directory
+  file: path={{ pxe.bootdir }} state=directory mode=0755
+
+- name: Enable the TFTPD service
+  shell: rcctl enable tftpd
+
+- name: Set TFTPD flags
+  shell: rcctl set tftpd flags {{ pxe.bootdir }}
+  notify:
+  - "restart tftpd"

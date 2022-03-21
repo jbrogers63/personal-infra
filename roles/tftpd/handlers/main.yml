@@ -1,0 +1,14 @@
+- name: start tftpd
+  service:
+    name: tftpd
+    state: started
+
+- name: stop tftpd
+  service:
+    name: tftpd
+    state: stopped
+
+- name: restart tftpd
+  service:
+    name: tftpd
+    state: restarted

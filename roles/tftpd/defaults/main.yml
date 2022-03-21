@@ -1,0 +1,50 @@
+netboot_tarballs:
+  - url: https://deb.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    dest: "{{ pxe.bootdir }}/debian11-netboot.tar.gz"
+    mode: "0644"
+    folder: "{{ pxe.bootdir }}/debian11"
+  - url: https://deb.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    dest: "{{ pxe.bootdir }}/debian10-netboot.tar.gz"
+    mode: "0644"
+    folder: "{{ pxe.bootdir }}/debian10"
+
+syslinux:
+  url: https://mirrors.edge.kernel.org/pub/linux/utils/boot/syslinux
+  version: "6.03"
+  dest: "{{ pxe.bootdir }}"
+
+pxe:
+  bootdir: "/pxe"
+  bootmenu:
+    - menu_label: "debian10"
+      name: "Debian 10 AMD64"
+      kernel: "debian10/debian-installer/amd64/linux"
+      append: "initrd=debian10/debian-installer/amd64/initrd.gz"
+    - menu_label: "debian11"
+      name: "Debian 11 AMD64"
+      kernel: "debian11/debian-installer/amd64/linux"
+      append: "initrd=debian11/debian-installer/amd64/initrd.gz"
+  openbsd:
+    base_url: "http://ftp.openbsd.org/pub/OpenBSD"
+    versions:
+      - "7.0"
+    archs:
+      - "amd64"
+    files:
+      - "pxeboot"
+      - "bsd.rd"
+  binaries:
+    - src: "bios/core/pxelinux.0"
+      dest: "pxelinux.0"
+    - src: "bios/core/ldlinux.sys"
+      dest: "ldlinux.sys"
+    - src: "bios/com32/elflink/ldlinux/ldlinux.c32"
+      dest: "ldlinux.c32"
+    - src: "bios/com32/menu/menu.c32"
+      dest: "menu.c32"
+    - src: "bios/com32/menu/vesamenu.c32"
+      dest: "vesamenu.c32"
+    - src: "bios/com32/lib/libcom32.c32"
+      dest: "libcom32.c32"
+    - src: "bios/com32/libutil/libutil.c32"
+      dest: "libutil.c32"

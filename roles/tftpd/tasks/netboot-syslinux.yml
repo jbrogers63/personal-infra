@@ -1,0 +1,35 @@
+---
+- name: Create the syslinux folders
+  file:
+    dest: "{{ pxe.bootdir }}/pxelinux.cfg"
+    state: directory
+    owner: _tftpd
+
+- name: Download syslinux
+  get_url:
+    url: "{{ syslinux.url }}/syslinux-{{ syslinux.version }}.tar.gz"
+    dest: "/tmp/syslinux-{{ syslinux.version }}.tar.gz"
+    mode: "0644"
+
+- name: Unpack syslinux
+  shell: "tar -C {{ syslinux.dest }} -xzf /tmp/syslinux-{{ syslinux.version }}.tar.gz"
+
+- name: Copy the required binaries
+  copy:
+    src: "{{ pxe.bootdir }}/syslinux-{{ syslinux.version }}/{{ item.src }}"
+    dest: "{{ pxe.bootdir}}/{{ item.dest }}"
+    remote_src: yes
+  with_items:
+    - "{{ pxe.binaries }}"
+
+- name: Copy the default pxelinux file
+  template:
+    src: pxe-default.j2
+    dest: "{{ pxe.bootdir }}/pxelinux.cfg/default"
+
+- name: Recursively set ownership of the PXE boot folder
+  file:
+    path: "{{ pxe.bootdir }}"
+    state: directory
+    recurse: yes
+    owner: _tftpd
