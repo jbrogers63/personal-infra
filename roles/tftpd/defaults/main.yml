@@ -24,6 +24,10 @@ pxe:
       name: "Debian 11 AMD64"
       kernel: "debian11/debian-installer/amd64/linux"
       append: "initrd=debian11/debian-installer/amd64/initrd.gz"
+    - menu_label: "debian11"
+      name: "Debian 11 i386"
+      kernel: "debian11/debian-installer/i386/linux"
+      append: "initrd=debian11/debian-installer/i386/initrd.gz"
   openbsd:
     base_url: "http://ftp.openbsd.org/pub/OpenBSD"
     versions:
