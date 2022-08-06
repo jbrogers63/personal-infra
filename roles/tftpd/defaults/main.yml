@@ -16,24 +16,28 @@ syslinux:
 pxe:
   bootdir: "/pxe"
   bootmenu:
-    - menu_label: "debian10"
+    - menu_label: "debian-10-amd64"
       name: "Debian 10 AMD64"
       kernel: "debian10/debian-installer/amd64/linux"
       append: "initrd=debian10/debian-installer/amd64/initrd.gz"
-    - menu_label: "debian11"
+    - menu_label: "debian-11-amd64"
       name: "Debian 11 AMD64"
       kernel: "debian11/debian-installer/amd64/linux"
       append: "initrd=debian11/debian-installer/amd64/initrd.gz"
-    - menu_label: "debian11"
+    - menu_label: "debian-11-amd64-gnome-auto"
+      name: "Debian 11 AMD64 Gnome Desktop"
+      kernel: "debian11/debian-installer/amd64/linux"
+      append: "initrd=debian11-amd64/debian-installer/amd64/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ tftpd_server }}/preseed-amd64-gnome.cfg vga=788 --- quiet"
+    - menu_label: "debian-11-i386"
       name: "Debian 11 i386"
       kernel: "debian11/debian-installer/i386/linux"
       append: "initrd=debian11/debian-installer/i386/initrd.gz"
-    - menu_label: "debian11cinnamonauto"
+    - menu_label: "debian-11-i386-cinnamon-auto"
       name: "Debian 11 i386 Cinnamon Desktop"
       kernel: "debian11/debian-installer/i386/linux"
-      append: "initrd=debian11-i386/debian-installer/i386/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ groups['tftpd_server'] }}/preseed-cinnamon.cfg vga=788 --- quiet"
+      append: "initrd=debian11-i386/debian-installer/i386/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ tftpd_server }}/preseed-686-cinnamon.cfg vga=788 --- quiet"
     - menu_label: "openbsd"
-      name: "{{ openbsd.versions[0] }}"
+      name: "OpenBSD 7.1"
       kernel: "syslinux-6.03/bios/com32/modules/pxechn.c32"
       append: "pxeboot"
 
@@ -46,6 +50,7 @@ pxe:
     files:
       - "pxeboot"
       - "bsd.rd"
+  
   binaries:
     - src: "bios/core/pxelinux.0"
       dest: "pxelinux.0"
@@ -61,3 +66,11 @@ pxe:
       dest: "libcom32.c32"
     - src: "bios/com32/libutil/libutil.c32"
       dest: "libutil.c32"
+
+  preseed:
+    arch:
+      - "686"
+      - "amd64"
+    desktop:
+      - "cinnamon"
+      - "gnome"
