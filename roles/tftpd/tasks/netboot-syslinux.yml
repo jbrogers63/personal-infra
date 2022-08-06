@@ -27,6 +27,13 @@
     src: pxe-default.j2
     dest: "{{ pxe.bootdir }}/pxelinux.cfg/default"
 
+- name: Copy up the Debian preseed files
+  template:
+    src: preseed.cfg.j2
+    dest: "{{ pxe.bootdir }}/preseed-{{ item.0 }}-{{ item.1 }}.cfg"
+    mode: "0644"
+  loop: "{{ pxe.preseed.arch|product(pxe.preseed.desktop)|list }}"
+
 - name: Recursively set ownership of the PXE boot folder
   file:
     path: "{{ pxe.bootdir }}"
