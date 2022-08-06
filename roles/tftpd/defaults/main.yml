@@ -28,6 +28,15 @@ pxe:
       name: "Debian 11 i386"
       kernel: "debian11/debian-installer/i386/linux"
       append: "initrd=debian11/debian-installer/i386/initrd.gz"
+    - menu_label: "debian11cinnamonauto"
+      name: "Debian 11 i386 Cinnamon Desktop"
+      kernel: "debian11/debian-installer/i386/linux"
+      append: "initrd=debian11-i386/debian-installer/i386/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ groups['tftpd_server'] }}/preseed-cinnamon.cfg vga=788 --- quiet"
+    - menu_label: "openbsd"
+      name: "{{ openbsd.versions[0] }}"
+      kernel: "syslinux-6.03/bios/com32/modules/pxechn.c32"
+      append: "pxeboot"
+
   openbsd:
     base_url: "http://ftp.openbsd.org/pub/OpenBSD"
     versions:
