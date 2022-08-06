@@ -40,7 +40,7 @@ pxe:
   openbsd:
     base_url: "http://ftp.openbsd.org/pub/OpenBSD"
     versions:
-      - "7.0"
+      - "7.1"
     archs:
       - "amd64"
     files:
