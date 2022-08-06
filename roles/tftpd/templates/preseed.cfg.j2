@@ -1,0 +1,91 @@
+# Ansible managed
+# DO NOT Edit by hand
+
+# Full disk install, no LUKS or LVM, single partition
+# ARCH: {{ item.0 }}
+# Desktop: {{ item.1 }}
+
+#_preseed_V1
+#### Contents of the preconfiguration file (for bullseye)
+### Localization
+# Preseeding only locale sets language, country and locale.
+d-i debian-installer/locale string en_US
+
+# Keyboard selection.
+d-i keyboard-configuration/xkb-keymap select us
+
+### Network configuration
+# netcfg will choose an interface that has link if possible. This makes it
+# skip displaying a list if there is more than one interface.
+d-i netcfg/choose_interface select auto
+
+# Disable that annoying WEP key dialog.
+d-i netcfg/wireless_wep string
+
+### Mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string http.us.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+### Account setup
+# Root password, either in clear text
+d-i passwd/root-password-crypted password {{ root_hashed_pw }}
+
+# To create a normal user account.
+{% for user in users %}
+d-i passwd/user-fullname string {{ user.comment }}
+d-i passwd/username string {{ user.name }}
+d-i passwd/user-password-crypted password {{ user.password }}
+d-i passwd/user-uid string {{ user.ugid }}
+{% endfor %}
+
+### Clock and time zone setup
+# Controls whether or not the hardware clock is set to UTC.
+d-i clock-setup/utc boolean true
+d-i time/zone string US/Eastern
+
+# Controls whether to use NTP to set the clock during the install
+d-i clock-setup/ntp boolean true
+
+### Partitioning
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
+
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+d-i partman-auto/choose_recipe select atomic
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+d-i partman/mount_style select uuid
+
+### Installing the base system
+d-i base-installer/kernel/image string linux-image-{{ item.0 }}
+
+### Apt setup
+d-i apt-setup/cdrom/set-first boolean false
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+d-i apt-setup/disable-cdrom-entries boolean true
+
+### Package selection
+tasksel tasksel/first multiselect standard, {{ item.1 }}-desktop
+
+d-i pkgsel/include string openssh-server build-essential git sudo vim
+d-i pkgsel/upgrade select full-upgrade
+popularity-contest popularity-contest/participate boolean false
+
+### Boot loader installation
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/bootdev  string /dev/sda
+
+### Finishing up the installation
+d-i finish-install/reboot_in_progress note
+
