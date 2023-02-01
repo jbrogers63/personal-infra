@@ -18,3 +18,4 @@
   shell: "tar -C {{ item.folder }} -xzf {{ item.dest }}"
   with_items:
     - "{{ netboot_tarballs }}"
+

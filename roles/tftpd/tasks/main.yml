@@ -11,3 +11,4 @@
 
 - name: Setup OpenBSD pxeboot
   include: pxeboot-openbsd.yml
+

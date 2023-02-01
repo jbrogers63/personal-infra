@@ -29,3 +29,4 @@
     dest: "{{ pxe.bootdir }}/etc/boot.conf"
     mode: "0644"
     owner: "_tftpd"
+

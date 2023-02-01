@@ -10,3 +10,4 @@
   loop: "{{ subnets }}"
   notify:
     - "restart dhcpd"
+

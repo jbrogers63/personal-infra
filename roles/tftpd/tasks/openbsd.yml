@@ -9,3 +9,4 @@
   shell: rcctl set tftpd flags {{ pxe.bootdir }}
   notify:
   - "restart tftpd"
+

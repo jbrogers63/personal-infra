@@ -1,10 +1,19 @@
+---
 netboot_tarballs:
   - url: https://deb.debian.org/debian/dists/bullseye/main/installer-amd64/current/images/netboot/netboot.tar.gz
-    dest: "{{ pxe.bootdir }}/debian11-netboot.tar.gz"
+    dest: "{{ pxe.bootdir }}/debian11-amd64-netboot.tar.gz"
     mode: "0644"
     folder: "{{ pxe.bootdir }}/debian11"
   - url: https://deb.debian.org/debian/dists/buster/main/installer-amd64/current/images/netboot/netboot.tar.gz
-    dest: "{{ pxe.bootdir }}/debian10-netboot.tar.gz"
+    dest: "{{ pxe.bootdir }}/debian10-amd64-netboot.tar.gz"
+    mode: "0644"
+    folder: "{{ pxe.bootdir }}/debian10"
+  - url: https://deb.debian.org/debian/dists/bullseye/main/installer-i386/current/images/netboot/netboot.tar.gz
+    dest: "{{ pxe.bootdir }}/debian11-i386-netboot.tar.gz"
+    mode: "0644"
+    folder: "{{ pxe.bootdir }}/debian11"
+  - url: https://deb.debian.org/debian/dists/buster/main/installer-i386/current/images/netboot/netboot.tar.gz
+    dest: "{{ pxe.bootdir }}/debian10-i386-netboot.tar.gz"
     mode: "0644"
     folder: "{{ pxe.bootdir }}/debian10"
 
@@ -27,7 +36,7 @@ pxe:
     - menu_label: "debian-11-amd64-gnome-auto"
       name: "Debian 11 AMD64 Gnome Desktop"
       kernel: "debian11/debian-installer/amd64/linux"
-      append: "initrd=debian11-amd64/debian-installer/amd64/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ tftpd_server }}/preseed-amd64-gnome.cfg vga=788 --- quiet"
+      append: "initrd=debian11/debian-installer/amd64/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ tftpd_server }}/preseed-amd64-gnome.cfg vga=788 --- quiet"
     - menu_label: "debian-11-i386"
       name: "Debian 11 i386"
       kernel: "debian11/debian-installer/i386/linux"
@@ -35,7 +44,7 @@ pxe:
     - menu_label: "debian-11-i386-cinnamon-auto"
       name: "Debian 11 i386 Cinnamon Desktop"
       kernel: "debian11/debian-installer/i386/linux"
-      append: "initrd=debian11-i386/debian-installer/i386/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ tftpd_server }}/preseed-686-cinnamon.cfg vga=788 --- quiet"
+      append: "initrd=debian11/debian-installer/i386/initrd.gz auto=true priority=high netcfg/get_hostname?= netcfg/get_domain?={{ domain }} preseed/url=tftp://{{ tftpd_server }}/preseed-686-cinnamon.cfg vga=788 --- quiet"
     - menu_label: "openbsd"
       name: "OpenBSD 7.1"
       kernel: "syslinux-6.03/bios/com32/modules/pxechn.c32"
@@ -74,3 +83,4 @@ pxe:
     desktop:
       - "cinnamon"
       - "gnome"
+

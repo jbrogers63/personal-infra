@@ -5,3 +5,4 @@
     dest: /etc/hostname.{{ item.interface }}
     mode: 0640
   loop: "{{ networks }}"
+
