@@ -1,15 +1,15 @@
 ---
-- name: start dhcpd
+- name: start OpenBSD dhcpd
   service:
     name: dhcpd
     state: started
 
-- name: stop dhcpd
+- name: stop OpenBSD dhcpd
   service:
     name: dhcpd
     state: stopped
 
-- name: restart dhcpd
+- name: restart OpenBSD dhcpd
   service:
     name: dhcpd
     state: restarted

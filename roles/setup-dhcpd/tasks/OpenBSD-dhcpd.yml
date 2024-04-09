@@ -6,8 +6,8 @@
   shell: rcctl set dhcpd flags {{ dhcp_interfaces }}
 
 - name: Configure the DHCPD service
-  template: src=openbsd_dhcpd.conf dest=/etc/dhcpd.conf
-  loop: "{{ subnets }}"
+  template: src="{{ ansible_distribution }}-dhcpd.conf" dest=/etc/dhcpd.conf
+  # loop: "{{ subnets }}"
   notify:
-    - "restart dhcpd"
+    - "restart {{ ansible_distribution }} dhcpd"
 
