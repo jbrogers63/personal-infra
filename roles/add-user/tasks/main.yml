@@ -15,7 +15,7 @@
     comment: "{{ item.comment }}"
     group: "{{ item.name }}"
     groups: "{{ item.openbsd_groups }}"
-    password: "{{ item.password }}"
+    password: "{{ item.password | password_hash(pw_hash) }}"
     create_home: True
     update_password: always
     state: present
@@ -32,7 +32,7 @@
     comment: "{{ item.comment }}"
     group: "{{ item.name }}"
     groups: "{{ item.linux_groups }}"
-    password: "{{ item.password }}"
+    password: "{{ item.password | password_hash(pw_hash) }}"
     create_home: True
     update_password: always
     state: present
