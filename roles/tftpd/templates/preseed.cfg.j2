@@ -29,14 +29,14 @@ d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
 
 ### Account setup
-# Root password, either in clear text
-d-i passwd/root-password-crypted password {{ root_hashed_pw }}
+# Root password
+d-i passwd/root-password-crypted password {{ root_pw | password_hash('sha512') }}
 
 # To create a normal user account.
 {% for user in users %}
 d-i passwd/user-fullname string {{ user.comment }}
 d-i passwd/username string {{ user.name }}
-d-i passwd/user-password-crypted password {{ user.password }}
+d-i passwd/user-password-crypted password {{ user.password | password_hash('sha512') }}
 d-i passwd/user-uid string {{ user.ugid }}
 {% endfor %}
 
