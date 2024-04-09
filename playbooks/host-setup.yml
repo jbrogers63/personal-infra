@@ -2,8 +2,6 @@
 - name: Setup hosts
   become: yes
   hosts: all
-  vars_files:
-    - ~/credentials/become_passwords.yml
 
   vars:
     skip_openbsd: False

@@ -6,20 +6,8 @@
 - hosts: openbsd
   gather_facts: false
   become: yes
-  become_method: su
-  become_user: root
-  vars_files:
-    - ~/credentials/become_passwords.yml
 
   tasks:
   - name: Install Python3
-    raw: pkg_add python%3.9
-
-  - name: Create Python3 symlinks
-    raw: "{{ item }}"
-    with_items:
-      - ln -sf /usr/local/bin/python3.9 /usr/local/bin/python
-      - ln -sf /usr/local/bin/python3.9 /usr/local/bin/python3
-      - ln -sf /usr/local/bin/python3-config /usr/local/bin/python-config
-      - ln -sf /usr/local/bin/pydoc3 /usr/local/bin/pydoc
+    raw: pkg_add python3
 
