@@ -6,7 +6,6 @@ I'm running mostly Linux infra, with some BSDs thrown into the mix as needed. In
 ### Roles
 This list will be updated as new services are added:
 * DHCP
-* DNS (authoritative and caching)
 * Routing/Firewalling (PF or iptables)
 * TFTP/PXE booting on a local network
 
