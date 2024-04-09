@@ -1,14 +1,14 @@
 ---
 - name: Setup TFTPD (OpenBSD)
-  include: openbsd.yml
+  include_tasks: openbsd.yml
   when: not skip_openbsd and ansible_distribution == "OpenBSD"
 
 - name: Install Netboot files
-  include: netboot-setup.yml
+  include_tasks: netboot-setup.yml
 
 - name: Setup Syslinux
-  include: netboot-syslinux.yml
+  include_tasks: netboot-syslinux.yml
 
 - name: Setup OpenBSD pxeboot
-  include: pxeboot-openbsd.yml
+  include_tasks: pxeboot-openbsd.yml
 

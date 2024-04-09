@@ -1,4 +1,8 @@
 ---
+- name: Cleanup PXE directory (prior to init)
+  file: path={{ pxe.bootdir }} state=absent
+  when: reset_pxe == "True"
+
 - name: Create the TFTPD directory
   file: path={{ pxe.bootdir }} state=directory mode=0755
 
