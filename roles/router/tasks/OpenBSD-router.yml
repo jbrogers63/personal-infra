@@ -1,7 +1,4 @@
 ---
-- name: Configure sysctl
-  shell: sysctl net.inet.ip.forwarding=1
-
 - name: Copy over sysctl file
   template:
     src: sysctl.conf.j2
